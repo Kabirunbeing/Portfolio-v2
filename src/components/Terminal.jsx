@@ -10,7 +10,6 @@ const TerminalTypingEffect = () => {
 
   const message = 'npm run Kabeer';
 
-  // Fake package names for installation
   const fakePackages = [
     'Installing package @kabeer/core...',
     'Installing package react-awesome-library...',
