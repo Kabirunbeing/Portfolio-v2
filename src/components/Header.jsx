@@ -9,22 +9,22 @@ const AnimatedHeader = () => {
   useEffect(() => {
     if (isOpen) {
       gsap.to(menuRef.current, {
-        duration: 0.4, // Faster opening
+        duration: 0.4,
         height: 'auto',
         opacity: 1,
         ease: 'power3.out',
         onStart: () => {
           menuRef.current.style.display = 'block';
-          gsap.fromTo(shutterRef.current, 
-            { width: '0%', backgroundColor: 'rgba(0, 0, 0, 0)' }, 
+          gsap.fromTo(shutterRef.current,
+            { width: '0%', backgroundColor: 'rgba(0, 0, 0, 0)' },
             { width: '100%', backgroundColor: 'rgba(0, 0, 0, 1)', duration: 0.2, ease: 'power3.out' });
         }
       });
     } else {
       gsap.to(shutterRef.current, {
         width: '100%',
-        backgroundColor: 'rgba(0, 255, 255, 0.5)', // Cyan effect while closing
-        duration: 0.2, // Faster closing
+        backgroundColor: 'rgba(0, 255, 255, 0.5)',
+        duration: 0.2,
         ease: 'power3.in',
         onComplete: () => {
           gsap.to(shutterRef.current, {
@@ -33,7 +33,7 @@ const AnimatedHeader = () => {
             ease: 'power3.in',
             onComplete: () => {
               gsap.to(menuRef.current, {
-                duration: 0.4, // Faster closing
+                duration: 0.4,
                 height: 0,
                 opacity: 0,
                 ease: 'power3.in',
@@ -65,9 +65,10 @@ const AnimatedHeader = () => {
               href={`#${text.toLowerCase()}`}
               className="text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative group"
             >
-              {text}
-              <div className="absolute inset-0 bg-cyan-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10 hover:rounded-full"></div>
-              <div className="absolute inset-0 border-cyan-400 transform scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <span className="relative">
+                {text}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </a>
           ))}
         </div>
@@ -89,7 +90,7 @@ const AnimatedHeader = () => {
         className="md:hidden text-center py-6 space-y-6 bg-black border-t border-gray-800 overflow-hidden transition-all duration-300 ease-in-out relative"
         style={{ display: 'none' }}
       >
-        <div 
+        <div
           ref={shutterRef}
           className="absolute top-0 left-0 w-full h-full bg-gray-700 z-10"
           style={{ width: '0%' }}
@@ -99,9 +100,12 @@ const AnimatedHeader = () => {
             <a
               key={text}
               href={`#${text.toLowerCase()}`}
-              className="block text-xl font-semibold text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative hover:bg-cyan-900 hover:rounded-full"
+              className="block text-xl font-semibold text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative group"
             >
-              {text}
+              <span className="relative">
+                {text}
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </a>
           ))}
         </div>

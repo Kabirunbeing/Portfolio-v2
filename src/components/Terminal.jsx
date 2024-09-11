@@ -1,31 +1,38 @@
 import React, { useState, useEffect } from 'react';
 
-const TerminalTypingEffect = () => {
+const TerminalTypingEffect = ({ onComplete }) => {
   const [text, setText] = useState('');
   const [index, setIndex] = useState(0);
   const [activeTab, setActiveTab] = useState('Terminal');
-  const [isInstalling, setIsInstalling] = useState(false); // Track installation status
-  const [installMessage, setInstallMessage] = useState(''); // Hold the install message
-  const [portfolioInitialized, setPortfolioInitialized] = useState(false); // Track portfolio initialization
+  const [isInstalling, setIsInstalling] = useState(false);
+  const [installMessage, setInstallMessage] = useState('');
+  const [portfolioInitialized, setPortfolioInitialized] = useState(false);
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [showNewTerminal, setShowNewTerminal] = useState(false); // New terminal toggle
 
   const message = 'npm run Kabeer';
 
   const fakePackages = [
-    'Installing package @kabeer/core...',
-    'Installing package react-awesome-library...',
-    'Installing package gsap for animations...',
-    'Installing package sass-loader...',
-    'Installing package axios...',
-    'Installing package react-router-dom...',
-    'Installing package redux...',
-    'Installing package react-redux...',
-    'Installing package tailwindcss...',
-    'Installing package lodash...',
-    'Installing package moment...',
-    'Installing package @babel/core...',
-    'Installing package webpack...',
-    'Installing package react-icons...',
-    'Installing package eslint...'
+    { name: 'Installing package @kabeer/core...', delay: 200 },
+    { name: 'Installing package react-awesome-library...', delay: 400 },
+    { name: 'Installing package gsap for animations...', delay: 300 },
+    { name: 'Installing package sass-loader...', delay: 150 },
+    { name: 'Installing package axios...', delay: 350 },
+    { name: 'Installing package react-router-dom...', delay: 250 },
+    { name: 'Installing package redux...', delay: 300 },
+    { name: 'Installing package react-redux...', delay: 200 },
+    { name: 'Installing package tailwindcss...', delay: 400 },
+    { name: 'Installing package lodash...', delay: 150 },
+    { name: 'Installing package moment...', delay: 250 },
+    { name: 'Installing package @babel/core...', delay: 300 },
+    { name: 'Installing package webpack...', delay: 200 },
+    { name: 'Installing package react-icons...', delay: 350 },
+    { name: 'Installing package eslint...', delay: 150 },
+    { name: 'Installing package @kabeer/portfolio-tools...', delay: 400 },
+    { name: 'Installing package react-animation-tools...', delay: 300 },
+    { name: 'Installing package node-fetch...', delay: 250 },
+    { name: 'Installing package styled-components...', delay: 350 },
+    { name: 'Installing package framer-motion...', delay: 250 },
   ];
 
   useEffect(() => {
@@ -38,37 +45,52 @@ const TerminalTypingEffect = () => {
     }
   }, [index, text, activeTab, isInstalling]);
 
-  // Function to simulate installation steps
   const handleInstallation = () => {
     if (!isInstalling) {
       setIsInstalling(true);
       let step = 0;
       const installInterval = setInterval(() => {
         if (step < fakePackages.length) {
-          setInstallMessage(fakePackages[step]);
+          const currentPackage = fakePackages[step];
+          const timestamp = new Date().toLocaleTimeString();
+          setInstallMessage(`[${timestamp}] ${currentPackage.name}`);
+          setCommandHistory((prevHistory) => [...prevHistory, `[${timestamp}] ${currentPackage.name}`]);
           step++;
         } else {
           clearInterval(installInterval);
           setTimeout(() => {
-            setInstallMessage('Portfolio is being initialized...');
+            setInstallMessage('');
+            setShowNewTerminal(true); // Show new terminal after installation
             setTimeout(() => {
-              setInstallMessage('Portfolio has been initialized');
-              setPortfolioInitialized(true);
-            }, 2000); // Simulate 2 seconds for portfolio initialization
-          }, 1000); // Short delay before showing portfolio initialization
+              const timestamp = new Date().toLocaleTimeString();
+              setCommandHistory((prevHistory) => [
+                ...prevHistory,
+                `\n[${timestamp}] Portfolio is being initialized...`,
+              ]);
+              setTimeout(() => {
+                const newTimestamp = new Date().toLocaleTimeString();
+                setCommandHistory((prevHistory) => [
+                  ...prevHistory,
+                  `[${newTimestamp}] Portfolio has been initialized`,
+                ]);
+                setPortfolioInitialized(true);
+                if (onComplete) {
+                  onComplete(); // Show portfolio
+                }
+              }, 2000); // Simulate 2 seconds for portfolio initialization
+            }, 500); // Delay before showing portfolio initialization
+          }, 1000);
         }
-      }, 200); // Delay between each package installation step
+      }, fakePackages[step]?.delay || 200);
     }
   };
 
-  // Handle terminal click or Enter key press
   const handleInteraction = () => {
     if (!isInstalling) {
       handleInstallation();
     }
   };
 
-  // Add event listener for Enter key press
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === 'Enter') {
@@ -80,11 +102,14 @@ const TerminalTypingEffect = () => {
   }, [isInstalling]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black p-4 sm:p-8" onClick={handleInteraction}>
+    <div
+      className="flex items-center justify-center min-h-screen bg-black p-4 sm:p-8"
+      onClick={handleInteraction}
+    >
       <div className="text-green-400 p-4 rounded-lg shadow-lg max-w-3xl w-full">
         {/* VS Code-like Terminal Header */}
         <div className="flex items-center justify-between bg-[#1e1e1e] px-3 py-2 rounded-t-lg">
-          {/* Window Controls (Mac-style) */}
+          {/* Window Controls */}
           <div className="flex space-x-2">
             <span className="w-3 h-3 bg-red-500 rounded-full"></span>
             <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
@@ -95,7 +120,7 @@ const TerminalTypingEffect = () => {
           <div></div>
         </div>
 
-        {/* Tab Navigation (Problems, Output, Debug Console, Terminal, Ports) */}
+        {/* Tab Navigation */}
         <div className="bg-[#252526] text-gray-400 px-3 py-2 flex space-x-4 overflow-auto">
           {['Problems', 'Output', 'Debug Console', 'Terminal', 'Ports'].map((tab) => (
             <button
@@ -110,23 +135,39 @@ const TerminalTypingEffect = () => {
           ))}
         </div>
 
-        {/* Terminal Body (only show content when 'Terminal' tab is active) */}
-        <div className="bg-[#1e1e1e] p-3 rounded-b-lg h-48 overflow-auto sm:h-64 md:h-72"> {/* Increased height for larger screens */}
+        {/* Terminal Body */}
+        <div className="bg-[#1e1e1e] p-3 rounded-b-lg h-48 overflow-auto sm:h-64 md:h-72 lg:h-96">
           {activeTab === 'Terminal' ? (
-            <p className="text-green-400 text-base md:text-lg lg:text-xl">
-              {isInstalling ? (
-                <span>{installMessage}</span>
-              ) : portfolioInitialized ? (
-                <span>Portfolio has been initialized</span>
+            <div className="text-green-400 text-sm md:text-base lg:text-lg">
+              {showNewTerminal ? (
+                <>
+                  {commandHistory.map((cmd, idx) => (
+                    <p key={idx}>{cmd}</p>
+                  ))}
+                  {portfolioInitialized ? (
+                    <p>Portfolio has been initialized</p>
+                  ) : (
+                    <p>[{new Date().toLocaleTimeString()}] Portfolio is being initialized...</p>
+                  )}
+                </>
               ) : (
                 <>
-                  <span className="text-blue-400">kabeer@portfolio</span>:~$ {text}
-                  <span className="animate-pulse">|</span> {/* Blinking cursor */}
+                  {commandHistory.map((cmd, idx) => (
+                    <p key={idx}>{cmd}</p>
+                  ))}
+                  {isInstalling ? (
+                    <p>{installMessage}</p>
+                  ) : (
+                    <>
+                      <span className="text-blue-400">kabeer@portfolio</span>:~$ {text}
+                      <span className="animate-pulse">|</span> {/* Blinking cursor */}
+                    </>
+                  )}
                 </>
               )}
-            </p>
+            </div>
           ) : (
-            <p className="text-gray-500">No content in {activeTab}</p> // Placeholder for other tabs
+            <p className="text-gray-500">No content in {activeTab}</p>
           )}
         </div>
       </div>

@@ -1,27 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { FaLinkedin, FaGithub, FaTwitter, FaEnvelope } from 'react-icons/fa';
-import { gsap } from 'gsap';
 
 const ConnectWithMe = () => {
-  const sectionRef = useRef(null);
-  const headingRef = useRef(null);
-  const socialLinksRef = useRef(null);
-  const taglineRef = useRef(null);
+  const [cursorPosition, setCursorPosition] = useState({ x: '50%', y: '50%' });
 
-  useEffect(() => {
-    // GSAP animation on component load
-    const tl = gsap.timeline({
-      defaults: { duration: 1, ease: 'power3.out' }
-    });
-
-    tl.from(headingRef.current, { opacity: 0, y: -50 })
-      .from(
-        socialLinksRef.current.children,
-        { opacity: 0, y: 50, stagger: 0.2 },
-        "-=0.5" // Overlap animations
-      )
-      .from(taglineRef.current, { opacity: 0, scale: 0.9 }, "-=0.5");
-  }, []);
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    setCursorPosition({ x: clientX + 'px', y: clientY + 'px' });
+  };
 
   const socialLinks = [
     {
@@ -48,42 +34,45 @@ const ConnectWithMe = () => {
 
   return (
     <div
-      ref={sectionRef}
-      className="flex flex-col items-center justify-center min-h-screen bg-black text-cyan-400 p-8 space-y-8"
+      onMouseMove={handleMouseMove}
+      className="relative flex flex-col items-center justify-center min-h-screen bg-black text-cyan-400 p-8 space-y-12 overflow-hidden"
     >
+      {/* Dynamic Light Effect */}
+      <div
+        className="absolute inset-0 bg-gradient-radial from-transparent to-black opacity-30 pointer-events-none transition-opacity duration-500"
+        style={{
+          background: `radial-gradient(circle at ${cursorPosition.x} ${cursorPosition.y}, rgba(0, 255, 255, 0.15), transparent 60%)`,
+        }}
+      ></div>
+
       {/* Section Heading */}
-      <h2
-        ref={headingRef}
-        className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-cyan-400"
-      >
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-cyan-400 relative group">
         Connect With Me
+        <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-20 blur-md -z-10 group-hover:opacity-30 transition-opacity duration-500"></span>
       </h2>
 
       {/* Social Links */}
-      <div
-        ref={socialLinksRef}
-        className="flex space-x-6 sm:space-x-8 md:space-x-10 lg:space-x-12"
-      >
+      <div className="flex flex-wrap justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-14">
         {socialLinks.map(({ href, icon, label }) => (
           <a
             key={label}
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-3xl sm:text-4xl md:text-5xl text-cyan-400 hover:text-neon transition-transform transform hover:scale-110"
+            className="relative text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-cyan-300 transition-transform transform hover:text-cyan-500 cursor-pointer group"
             aria-label={label}
           >
             {icon}
+            {/* Pulse effect on hover */}
+            <span className="absolute inset-0 rounded-full bg-cyan-400 opacity-0 transition duration-300 group-hover:opacity-50 group-hover:scale-125"></span>
           </a>
         ))}
       </div>
 
       {/* Subtle Pulse Animation */}
-      <p
-        ref={taglineRef}
-        className="text-lg sm:text-xl md:text-2xl text-center animate-pulse text-neon"
-      >
+      <p className="text-lg sm:text-xl md:text-2xl text-center text-cyan-300 animate-pulse relative group">
         Let's collaborate and build something amazing together!
+        <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-10 blur-md -z-10 group-hover:opacity-30 transition-opacity duration-500"></span>
       </p>
     </div>
   );
