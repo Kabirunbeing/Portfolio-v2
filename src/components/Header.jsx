@@ -1,12 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { gsap } from 'gsap';
+import KabirLogo from './Kabir.png'; // Adjust the path as necessary
 
 const AnimatedHeader = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef(null);
-  const shutterRef = useRef(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const menuRef = React.useRef(null);
+  const shutterRef = React.useRef(null);
+  const logoRef = React.useRef(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
+    gsap.fromTo(logoRef.current,
+      { opacity: 0, scale: 0.9 },
+      { opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' }
+    );
+
     if (isOpen) {
       gsap.to(menuRef.current, {
         duration: 0.4,
@@ -17,7 +24,8 @@ const AnimatedHeader = () => {
           menuRef.current.style.display = 'block';
           gsap.fromTo(shutterRef.current,
             { width: '0%', backgroundColor: 'rgba(0, 0, 0, 0)' },
-            { width: '100%', backgroundColor: 'rgba(0, 0, 0, 1)', duration: 0.2, ease: 'power3.out' });
+            { width: '100%', backgroundColor: 'rgba(0, 0, 0, 1)', duration: 0.2, ease: 'power3.out' }
+          );
         }
       });
     } else {
@@ -52,9 +60,14 @@ const AnimatedHeader = () => {
     <header className="bg-black text-white shadow-lg relative font-roboto">
       <nav className="container mx-auto flex justify-between items-center py-6 px-6">
         {/* Logo */}
-        <div className="text-3xl font-bold tracking-wider">
-          <a href="/" className="text-cyan-400 hover:text-cyan-300 transition-colors duration-300">
-            Kabeer
+        <div className="text-3xl font-bold tracking-wider flex items-center">
+          <a href="/" className="transition-colors duration-300">
+            <img
+              src={KabirLogo}
+              alt="Kabir Logo"
+              className="h-12 md:h-16 transition-transform duration-300 transform hover:scale-125 hover:rotate-3 hover:shadow-xl hover:brightness-110"
+              ref={logoRef}
+            />
           </a>
         </div>
         {/* Desktop Menu */}
@@ -76,11 +89,15 @@ const AnimatedHeader = () => {
         <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-cyan-400 hover:text-cyan-300 focus:outline-none transition-transform duration-300 transform hover:scale-110"
+            className="relative group focus:outline-none bg-transparent"
           >
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
+            <div className="relative flex overflow-hidden items-center justify-center rounded-full w-[50px] h-[50px] transform transition-all ring-0 ring-gray-300 hover:ring-8 group-focus:ring-4 ring-opacity-30 duration-200 shadow-md">
+              <div className={`flex flex-col justify-between w-[20px] h-[20px] transform transition-all duration-300 origin-center overflow-hidden ${isOpen ? 'rotate-180 -translate-x-1.5' : ''}`}>
+                <div className={`bg-white h-[2px] w-7 transform transition-all duration-300 origin-left ${isOpen ? 'rotate-[42deg] w-2/3 delay-150' : ''}`}></div>
+                <div className={`bg-white h-[2px] w-7 rounded transform transition-all duration-300 ${isOpen ? 'translate-x-10' : ''}`}></div>
+                <div className={`bg-white h-[2px] w-7 transform transition-all duration-300 origin-left ${isOpen ? '-rotate-[42deg] w-2/3 delay-150' : ''}`}></div>
+              </div>
+            </div>
           </button>
         </div>
       </nav>
@@ -96,9 +113,9 @@ const AnimatedHeader = () => {
           style={{ width: '0%' }}
         ></div>
         <div className="relative z-20">
-          {['About', 'Projects', 'Contact'].map((text) => (
+          {['About', 'Projects', 'Contact'].map((text, index) => (
             <a
-              key={text}
+              key={index}
               href={`#${text.toLowerCase()}`}
               className="block text-xl font-semibold text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative group"
             >
