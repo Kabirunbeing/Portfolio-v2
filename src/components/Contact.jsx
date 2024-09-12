@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,7 @@ const ContactForm = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,9 +16,32 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    setSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
+    setLoading(true);
+
+    // Use EmailJS to send form data
+    emailjs
+      .send(
+        'service_p30frvv', // Your EmailJS service ID
+        'template_20b8n75', // Your EmailJS template ID
+        {
+          user_name: formData.name,
+          user_email: formData.email,
+          message: formData.message,
+        }, // Form data to send
+        'p2FmLOOB7gO9y32FW' // Your Public API key
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+          setSubmitted(true); // Show success message
+          setFormData({ name: '', email: '', message: '' }); // Reset form
+          setLoading(false);
+        },
+        (error) => {
+          console.log(error.text); // Handle error
+          setLoading(false);
+        }
+      );
   };
 
   return (
@@ -74,11 +99,23 @@ const ContactForm = () => {
               />
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-center font-bold">
               <button
                 type="submit"
-                className="px-6 py-3 bg-cyan-400 text-black font-bold rounded-md transition hover:bg-cyan-500 focus:ring-2 focus:ring-cyan-500">
-                Send Message
+                className={`px-6 py-3 rounded-md transition focus:ring-2 focus:ring-cyan-500 ${loading ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-black cursor-not-allowed shadow-lg' : 'bg-gradient-to-r from-cyan-400 to-cyan-500 text-black hover:bg-gradient-to-r hover:from-cyan-500 hover:to-cyan-600 shadow-lg'} ${loading ? 'animate-pulse' : 'hover:scale-105'}`}
+                disabled={loading}
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <svg className="animate-spin h-5 w-5 mr-3 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm2 0a6 6 0 1 0 12 0 6 6 0 0 0-12 0z"></path>
+                    </svg>
+                    Sending...
+                  </div>
+                ) : (
+                  'Send Message'
+                )}
               </button>
             </div>
           </form>

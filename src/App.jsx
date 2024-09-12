@@ -6,6 +6,7 @@ import HomePage from "./components/Home";
 import Skills from "./components/Skills";
 import TypeWriterEffect from "./components/TypingEff";
 import TerminalTypingEffect from "./components/Terminal";
+import Arrow from "./components/Arrow";
 
 function App() {
   const [terminalComplete, setTerminalComplete] = useState(false);
@@ -28,6 +29,7 @@ function App() {
           <TypeWriterEffect />
           <ContactForm />
           <ConnectWithMe />
+          <Arrow/>
         </>
       )}
     </>
