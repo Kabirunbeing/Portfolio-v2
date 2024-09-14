@@ -18,27 +18,27 @@ const ContactForm = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Use EmailJS to send form data
+    
     emailjs
       .send(
-        'service_p30frvv', // Your EmailJS service ID
-        'template_20b8n75', // Your EmailJS template ID
+        'service_p30frvv',
+        'template_20b8n75', 
         {
           user_name: formData.name,
           user_email: formData.email,
           message: formData.message,
-        }, // Form data to send
-        'p2FmLOOB7gO9y32FW' // Your Public API key
+        }, 
+        'p2FmLOOB7gO9y32FW' 
       )
       .then(
         (result) => {
           console.log(result.text);
-          setSubmitted(true); // Show success message
-          setFormData({ name: '', email: '', message: '' }); // Reset form
+          setSubmitted(true); 
+          setFormData({ name: '', email: '', message: '' }); 
           setLoading(false);
         },
         (error) => {
-          console.log(error.text); // Handle error
+          console.log(error.text); 
           setLoading(false);
         }
       );

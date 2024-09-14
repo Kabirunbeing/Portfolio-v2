@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Loader from './Loader'; // Import the Loader component
 
 const TerminalTypingEffect = ({ onComplete }) => {
   const [text, setText] = useState('');
@@ -6,33 +7,25 @@ const TerminalTypingEffect = ({ onComplete }) => {
   const [activeTab, setActiveTab] = useState('Terminal');
   const [isInstalling, setIsInstalling] = useState(false);
   const [installMessage, setInstallMessage] = useState('');
-  const [portfolioInitialized, setPortfolioInitialized] = useState(false);
   const [commandHistory, setCommandHistory] = useState([]);
-  const [showNewTerminal, setShowNewTerminal] = useState(false); // New terminal toggle
+  const [showNewTerminal, setShowNewTerminal] = useState(false);
+  const [showLoader, setShowLoader] = useState(false); // State to control loader visibility
 
   const message = 'npm run Kabeer';
-
+  
   const fakePackages = [
-    { name: 'Installing package @kabeer/core...', delay: 200 },
-    { name: 'Installing package react-awesome-library...', delay: 400 },
-    { name: 'Installing package gsap for animations...', delay: 300 },
-    { name: 'Installing package sass-loader...', delay: 150 },
-    { name: 'Installing package axios...', delay: 350 },
-    { name: 'Installing package react-router-dom...', delay: 250 },
-    { name: 'Installing package redux...', delay: 300 },
-    { name: 'Installing package react-redux...', delay: 200 },
-    { name: 'Installing package tailwindcss...', delay: 400 },
-    { name: 'Installing package lodash...', delay: 150 },
-    { name: 'Installing package moment...', delay: 250 },
-    { name: 'Installing package @babel/core...', delay: 300 },
-    { name: 'Installing package webpack...', delay: 200 },
-    { name: 'Installing package react-icons...', delay: 350 },
-    { name: 'Installing package eslint...', delay: 150 },
-    { name: 'Installing package @kabeer/portfolio-tools...', delay: 400 },
-    { name: 'Installing package react-animation-tools...', delay: 300 },
-    { name: 'Installing package node-fetch...', delay: 250 },
-    { name: 'Installing package styled-components...', delay: 350 },
-    { name: 'Installing package framer-motion...', delay: 250 },
+    { name: 'Installing react...', delay: 200 },
+    { name: 'Installing next...', delay: 300 },
+    { name: 'Installing tailwindcss...', delay: 400 },
+    { name: 'Installing drizzle...', delay: 300 },
+    { name: 'Installing sqlite3...', delay: 400 },
+    { name: 'Installing react-dom...', delay: 300 },
+    { name: 'Installing gsap...', delay: 500 },
+    { name: 'Installing axios...', delay: 300 },
+    { name: 'Installing framer-motion...', delay: 400 },
+    { name: 'Installing zustand...', delay: 300 },
+    { name: 'Installing lodash...', delay: 200 },
+    { name: 'fetching portfolio...', delay: 200 },
   ];
 
   useEffect(() => {
@@ -40,13 +33,13 @@ const TerminalTypingEffect = ({ onComplete }) => {
       const timeout = setTimeout(() => {
         setText(text + message[index]);
         setIndex(index + 1);
-      }, 110); // Typing speed
+      }, 110);
       return () => clearTimeout(timeout);
     }
   }, [index, text, activeTab, isInstalling]);
 
   const handleInstallation = () => {
-    if (!isInstalling) {
+    if (activeTab === 'Terminal' && !isInstalling) {
       setIsInstalling(true);
       let step = 0;
       const installInterval = setInterval(() => {
@@ -58,64 +51,53 @@ const TerminalTypingEffect = ({ onComplete }) => {
           step++;
         } else {
           clearInterval(installInterval);
+          setInstallMessage('');
+          setShowNewTerminal(true);
+          setCommandHistory((prevHistory) => [
+            ...prevHistory,
+            `[${new Date().toLocaleTimeString()}] All packages installed successfully.`,
+          ]);
+          setShowLoader(true); // Show the loader after installation
           setTimeout(() => {
-            setInstallMessage('');
-            setShowNewTerminal(true); // Show new terminal after installation
-            setTimeout(() => {
-              const timestamp = new Date().toLocaleTimeString();
-              setCommandHistory((prevHistory) => [
-                ...prevHistory,
-                `\n[${timestamp}] Portfolio is being initialized...`,
-              ]);
-              setTimeout(() => {
-                const newTimestamp = new Date().toLocaleTimeString();
-                setCommandHistory((prevHistory) => [
-                  ...prevHistory,
-                  `[${newTimestamp}] Portfolio has been initialized`,
-                ]);
-                setPortfolioInitialized(true);
-                if (onComplete) {
-                  onComplete(); // Show portfolio
-                }
-              }, 2000); // Simulate 2 seconds for portfolio initialization
-            }, 500); // Delay before showing portfolio initialization
-          }, 1000);
+            setShowLoader(false); // Hide the loader after 2 seconds
+            if (onComplete) {
+              onComplete();
+            }
+          }, 2000); // 2 seconds delay
         }
       }, fakePackages[step]?.delay || 200);
     }
   };
 
   const handleInteraction = () => {
-    if (!isInstalling) {
+    if (activeTab === 'Terminal') {
       handleInstallation();
     }
   };
 
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' && activeTab === 'Terminal') {
         handleInteraction();
       }
     };
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isInstalling]);
+  }, [isInstalling, activeTab]);
 
   return (
     <div
       className="flex items-center justify-center min-h-screen bg-black p-4 sm:p-8"
       onClick={handleInteraction}
     >
-      <div className="text-green-400 p-4 rounded-lg shadow-lg max-w-3xl w-full">
-        {/* VS Code-like Terminal Header */}
+      <div className="text-green-400 p-4 rounded-lg shadow-lg max-w-full w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2">
+        {/* Terminal Header */}
         <div className="flex items-center justify-between bg-[#1e1e1e] px-3 py-2 rounded-t-lg">
-          {/* Window Controls */}
           <div className="flex space-x-2">
             <span className="w-3 h-3 bg-red-500 rounded-full"></span>
             <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
             <span className="w-3 h-3 bg-green-500 rounded-full"></span>
           </div>
-          {/* Title */}
           <div className="text-sm text-gray-400">Terminal</div>
           <div></div>
         </div>
@@ -128,7 +110,11 @@ const TerminalTypingEffect = ({ onComplete }) => {
               className={`${
                 activeTab === tab ? 'text-white border-b-2 border-blue-500' : 'hover:text-white'
               }`}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {
+                setActiveTab(tab);
+                // Clear input text when switching tabs
+                if (tab !== 'Terminal') setText('');
+              }}
             >
               {tab}
             </button>
@@ -136,7 +122,7 @@ const TerminalTypingEffect = ({ onComplete }) => {
         </div>
 
         {/* Terminal Body */}
-        <div className="bg-[#1e1e1e] p-3 rounded-b-lg h-48 overflow-auto sm:h-64 md:h-72 lg:h-96">
+        <div className="bg-[#1e1e1e] p-3 rounded-b-lg h-48 sm:h-64 md:h-48 lg:h-64 xl:h-72 overflow-auto">
           {activeTab === 'Terminal' ? (
             <div className="text-green-400 text-sm md:text-base lg:text-lg">
               {showNewTerminal ? (
@@ -144,11 +130,6 @@ const TerminalTypingEffect = ({ onComplete }) => {
                   {commandHistory.map((cmd, idx) => (
                     <p key={idx}>{cmd}</p>
                   ))}
-                  {portfolioInitialized ? (
-                    <p>Portfolio has been initialized</p>
-                  ) : (
-                    <p>[{new Date().toLocaleTimeString()}] Portfolio is being initialized...</p>
-                  )}
                 </>
               ) : (
                 <>
@@ -160,14 +141,20 @@ const TerminalTypingEffect = ({ onComplete }) => {
                   ) : (
                     <>
                       <span className="text-blue-400">kabeer@portfolio</span>:~$ {text}
-                      <span className="animate-pulse">|</span> {/* Blinking cursor */}
+                      <span className="animate-pulse">|</span>
                     </>
                   )}
                 </>
               )}
+              {showLoader && <Loader />} {/* Render loader based on showLoader state */}
             </div>
           ) : (
-            <p className="text-gray-500">No content in {activeTab}</p>
+            <div className="text-gray-500">
+              {activeTab === 'Problems' && <p>No issues detected.</p>}
+              {activeTab === 'Output' && <p>No output to display.</p>}
+              {activeTab === 'Debug Console' && <p>No debug messages.</p>}
+              {activeTab === 'Ports' && <p>No ports information available.</p>}
+            </div>
           )}
         </div>
       </div>

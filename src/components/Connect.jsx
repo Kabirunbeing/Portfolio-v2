@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaLinkedin, FaGithub, FaTwitter, FaEnvelope } from 'react-icons/fa';
+import { FaLinkedin, FaGithub, FaTwitter, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
 
 const ConnectWithMe = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: '50%', y: '50%' });
@@ -16,7 +16,7 @@ const ConnectWithMe = () => {
       label: 'LinkedIn',
     },
     {
-      href: 'https://github.com/your-profile',
+      href: 'https://github.com/Kabirunbeing/Portfolio-v2',
       icon: <FaGithub />,
       label: 'GitHub',
     },
@@ -26,9 +26,14 @@ const ConnectWithMe = () => {
       label: 'Twitter',
     },
     {
-      href: 'mailto:your.email@example.com',
+      href: 'mailto:kab6168@gmail.com',
       icon: <FaEnvelope />,
       label: 'Email',
+    },
+    {
+      href: 'https://wa.me/92186112144', 
+      icon: <FaWhatsapp />,
+      label: 'WhatsApp',
     },
   ];
 
@@ -37,7 +42,6 @@ const ConnectWithMe = () => {
       onMouseMove={handleMouseMove}
       className="relative flex flex-col items-center justify-center min-h-screen bg-black text-cyan-400 p-8 space-y-12 overflow-hidden"
     >
-      {/* Dynamic Light Effect */}
       <div
         className="absolute inset-0 bg-gradient-radial from-transparent to-black opacity-30 pointer-events-none transition-opacity duration-500"
         style={{
@@ -45,13 +49,11 @@ const ConnectWithMe = () => {
         }}
       ></div>
 
-      {/* Section Heading */}
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-cyan-400 relative group">
         Connect With Me
         <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-20 blur-md -z-10 group-hover:opacity-30 transition-opacity duration-500"></span>
       </h2>
 
-      {/* Social Links */}
       <div className="flex flex-wrap justify-center gap-8 sm:gap-10 md:gap-12 lg:gap-14">
         {socialLinks.map(({ href, icon, label }) => (
           <a
@@ -63,13 +65,11 @@ const ConnectWithMe = () => {
             aria-label={label}
           >
             {icon}
-            {/* Pulse effect on hover */}
             <span className="absolute inset-0 rounded-full bg-cyan-400 opacity-0 transition duration-300 group-hover:opacity-50 group-hover:scale-125"></span>
           </a>
         ))}
       </div>
 
-      {/* Subtle Pulse Animation */}
       <p className="text-lg sm:text-xl md:text-2xl text-center text-cyan-300 animate-pulse relative group">
         Let's collaborate and build something amazing together!
         <span className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 opacity-10 blur-md -z-10 group-hover:opacity-30 transition-opacity duration-500"></span>

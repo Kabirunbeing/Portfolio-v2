@@ -67,7 +67,7 @@ const Arrow = () => {
     <div
       ref={arrowRef}
       onClick={handleClick}
-      className="fixed z-50 bottom-8 right-8 w-12 h-12 rounded-full bg-cyan-400 hover:bg-cyan-300 cursor-pointer flex justify-center items-center transition-transform duration-300 transform hover:scale-110"
+      className="fixed z-50 bottom-8 right-8 w-12 h-12 rounded-full bg-cyan-500 hover:bg-cyan-400 cursor-pointer flex justify-center items-center transition-transform duration-300 transform hover:scale-110"
       style={{
         boxShadow: '0px 0px 10px rgba(0, 255, 255, 0.5)',
         backdropFilter: 'blur(4px)',

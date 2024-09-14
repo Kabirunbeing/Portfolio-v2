@@ -71,7 +71,7 @@ const AnimatedHeader = () => {
           </a>
         </div>
         {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-8 text-lg">
+        <div className="hidden md:flex space-x-8 text-2xl font-bold">
           {['About', 'Projects', 'Contact'].map((text, index) => (
             <a
               key={index}
@@ -117,7 +117,7 @@ const AnimatedHeader = () => {
             <a
               key={index}
               href={`#${text.toLowerCase()}`}
-              className="block text-xl font-semibold text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative group"
+              className="block text-xl font-bold text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative group"
             >
               <span className="relative">
                 {text}
