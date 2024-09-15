@@ -45,7 +45,7 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black p-4 sm:p-8">
+    <div id="contact" className="flex items-center justify-center min-h-screen bg-black p-4 sm:p-8">
       <div className="bg-[#1f1f1f] p-6 rounded-lg shadow-lg max-w-lg w-full">
         <h2 className="text-3xl font-bold text-cyan-400 mb-6 text-center uppercase tracking-wide">
           Contact Me

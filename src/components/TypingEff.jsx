@@ -92,7 +92,7 @@ const ComparisonComponent = () => {
   `;
 
   return (
-    <div className="min-h-screen bg-black p-4 lg:p-12 flex flex-col items-center" ref={sectionRef}>
+    <div id="Typing" className="min-h-screen bg-black p-4 lg:p-12 flex flex-col items-center" ref={sectionRef}>
       <div className="relative w-full max-w-5xl p-6 lg:p-8 rounded-lg shadow-xl bg-black transition-transform transform hover:scale-105 hover:shadow-neon-cyan-glow">
         <h2 className="text-3xl text-white lg:text-4xl font-extrabold text-neon-cyan mb-4 lg:mb-6 text-center flex items-center justify-center gap-2">
           <FaReact className="w-12 h-12 text-white" /> {/* Increased size to w-12 h-12 */}

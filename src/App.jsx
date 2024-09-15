@@ -7,6 +7,7 @@ import Skills from "./components/Skills";
 import TypeWriterEffect from "./components/TypingEff";
 import TerminalTypingEffect from "./components/Terminal";
 import Arrow from "./components/Arrow";
+import Projects from "./components/Projects";
 
 function App() {
   const [terminalComplete, setTerminalComplete] = useState(false);
@@ -26,6 +27,7 @@ function App() {
           <AnimatedHeader />
           <HomePage />
           <Skills />
+          <Projects/>
           <TypeWriterEffect />
           <ContactForm />
           <ConnectWithMe />

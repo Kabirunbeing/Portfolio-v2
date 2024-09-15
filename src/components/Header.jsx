@@ -56,6 +56,30 @@ const AnimatedHeader = () => {
     }
   }, [isOpen]);
 
+  const menuItems = [
+    { text: 'Home', id: 'home' },
+    { text: 'Skills', id: 'skills' },
+    { text: 'Projects', id: 'projects' },
+    { text: 'Contact', id: 'contact' },
+    { text: 'Get in touch', id: 'connect' }
+  ];
+
+  const handleLinkClick = (e, id) => {
+    e.preventDefault(); // Prevent default anchor behavior
+
+    // Scroll to the target section with smooth behavior
+    const target = document.getElementById(id);
+    if (target) {
+      window.scrollTo({
+        top: target.offsetTop,
+        behavior: 'smooth'
+      });
+    }
+
+    // Close the mobile menu if open
+    if (isOpen) setIsOpen(false);
+  };
+
   return (
     <header className="bg-black text-white shadow-lg relative font-roboto">
       <nav className="container mx-auto flex justify-between items-center py-6 px-6">
@@ -72,10 +96,11 @@ const AnimatedHeader = () => {
         </div>
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 text-2xl font-bold">
-          {['About', 'Projects', 'Contact'].map((text, index) => (
+          {menuItems.map(({ text, id }) => (
             <a
-              key={index}
-              href={`#${text.toLowerCase()}`}
+              key={id}
+              href={`#${id}`}
+              onClick={(e) => handleLinkClick(e, id)}
               className="text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative group"
             >
               <span className="relative">
@@ -113,10 +138,11 @@ const AnimatedHeader = () => {
           style={{ width: '0%' }}
         ></div>
         <div className="relative z-20">
-          {['About', 'Projects', 'Contact'].map((text, index) => (
+          {menuItems.map(({ text, id }) => (
             <a
-              key={index}
-              href={`#${text.toLowerCase()}`}
+              key={id}
+              href={`#${id}`}
+              onClick={(e) => handleLinkClick(e, id)}
               className="block text-xl font-bold text-cyan-400 hover:text-cyan-300 transition-transform duration-300 transform hover:scale-110 relative group"
             >
               <span className="relative">

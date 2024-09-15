@@ -4,7 +4,7 @@ const HomePage = () => {
   const [text, setText] = useState('');
   const [index, setIndex] = useState(0);
   
-  const description = "Hi, I'm [Your Name], a passionate developer focusing on React and full-stack development.";
+  const description = "Hi, I'm Kabeer, a passionate developer focusing on React and full-stack development.";
 
   useEffect(() => {
     if (index < description.length) {
@@ -17,7 +17,7 @@ const HomePage = () => {
   }, [index, description]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-black p-4 sm:p-8">
+    <div id="home" className="flex flex-col items-center justify-center min-h-screen bg-black p-4 sm:p-8">
       {/* Image Section */}
       <div className="mb-8">
         <img

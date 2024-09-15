@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Loader from './Loader'; // Import the Loader component
+import Loader from './Loader'; 
 
 const TerminalTypingEffect = ({ onComplete }) => {
   const [text, setText] = useState('');
@@ -9,7 +9,7 @@ const TerminalTypingEffect = ({ onComplete }) => {
   const [installMessage, setInstallMessage] = useState('');
   const [commandHistory, setCommandHistory] = useState([]);
   const [showNewTerminal, setShowNewTerminal] = useState(false);
-  const [showLoader, setShowLoader] = useState(false); // State to control loader visibility
+  const [showLoader, setShowLoader] = useState(false); 
 
   const message = 'npm run Kabeer';
   
@@ -57,13 +57,13 @@ const TerminalTypingEffect = ({ onComplete }) => {
             ...prevHistory,
             `[${new Date().toLocaleTimeString()}] All packages installed successfully.`,
           ]);
-          setShowLoader(true); // Show the loader after installation
+          setShowLoader(true); 
           setTimeout(() => {
-            setShowLoader(false); // Hide the loader after 2 seconds
+            setShowLoader(false); 
             if (onComplete) {
               onComplete();
             }
-          }, 2000); // 2 seconds delay
+          }, 2000); 
         }
       }, fakePackages[step]?.delay || 200);
     }
@@ -98,7 +98,7 @@ const TerminalTypingEffect = ({ onComplete }) => {
             <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
             <span className="w-3 h-3 bg-green-500 rounded-full"></span>
           </div>
-          <div className="text-sm text-gray-400">Terminal</div>
+          <div className="text-sm font-bold hover:opacity-70 text-gray-200">Terminal</div>
           <div></div>
         </div>
 

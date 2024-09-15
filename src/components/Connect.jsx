@@ -31,14 +31,14 @@ const ConnectWithMe = () => {
       label: 'Email',
     },
     {
-      href: 'https://wa.me/92186112144', 
+      href: 'https://wa.me/923186112144', 
       icon: <FaWhatsapp />,
       label: 'WhatsApp',
     },
   ];
 
   return (
-    <div
+    <div id="connect"
       onMouseMove={handleMouseMove}
       className="relative flex flex-col items-center justify-center min-h-screen bg-black text-cyan-400 p-8 space-y-12 overflow-hidden"
     >

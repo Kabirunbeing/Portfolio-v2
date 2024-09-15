@@ -35,7 +35,7 @@ const skills = [
 
 const Skills = () => {
   return (
-    <div className="min-h-screen bg-black p-8">
+    <div id="skills" className="min-h-screen bg-black p-8">
       <h2 className="text-4xl font-bold text-cyan-400 mb-8 text-center uppercase tracking-wide transition-transform transform hover:scale-110 hover:text-cyan-500 duration-500 ease-in-out">
         My Skills
       </h2>
