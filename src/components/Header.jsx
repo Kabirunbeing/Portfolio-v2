@@ -76,12 +76,11 @@ const AnimatedHeader = () => {
       });
     }
 
-    // Close the mobile menu if open
     if (isOpen) setIsOpen(false);
   };
 
   return (
-    <header className="bg-black text-white shadow-lg relative font-roboto">
+    <header className="bg-black text-white shadow-lg fixed top-0 left-0 right-0 z-50 font-roboto">
       <nav className="container mx-auto flex justify-between items-center py-6 px-6">
         {/* Logo */}
         <div className="text-3xl font-bold tracking-wider flex items-center">

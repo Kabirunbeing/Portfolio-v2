@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Loader from './Loader'; 
+import Loader from './Loader';
 
 const TerminalTypingEffect = ({ onComplete }) => {
   const [text, setText] = useState('');
@@ -9,10 +9,10 @@ const TerminalTypingEffect = ({ onComplete }) => {
   const [installMessage, setInstallMessage] = useState('');
   const [commandHistory, setCommandHistory] = useState([]);
   const [showNewTerminal, setShowNewTerminal] = useState(false);
-  const [showLoader, setShowLoader] = useState(false); 
+  const [showLoader, setShowLoader] = useState(false);
 
   const message = 'npm run Kabeer';
-  
+
   const fakePackages = [
     { name: 'Installing react...', delay: 200 },
     { name: 'Installing next...', delay: 300 },
@@ -57,13 +57,13 @@ const TerminalTypingEffect = ({ onComplete }) => {
             ...prevHistory,
             `[${new Date().toLocaleTimeString()}] All packages installed successfully.`,
           ]);
-          setShowLoader(true); 
+          setShowLoader(true);
           setTimeout(() => {
-            setShowLoader(false); 
+            setShowLoader(false);
             if (onComplete) {
               onComplete();
             }
-          }, 2000); 
+          }, 2000);
         }
       }, fakePackages[step]?.delay || 200);
     }
@@ -87,54 +87,74 @@ const TerminalTypingEffect = ({ onComplete }) => {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-black p-4 sm:p-8"
+      className="flex items-center justify-center min-h-screen bg-gray-800 p-4 sm:p-8"
       onClick={handleInteraction}
     >
-      <div className="text-green-400 p-4 rounded-lg shadow-lg max-w-full w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2">
+      <div className="text-green-200 p-4 rounded-lg shadow-lg max-w-full w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2">
         {/* Terminal Header */}
-        <div className="flex items-center justify-between bg-[#1e1e1e] px-3 py-2 rounded-t-lg">
+        <div className="flex items-center justify-between bg-gradient-to-r from-indigo-800 via-purple-700 to-blue-600 px-3 py-2 rounded-t-lg shadow-md border-b border-gray-700">
           <div className="flex space-x-2">
-            <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+            <span className="w-3 h-3 bg-red-600 rounded-full"></span>
             <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
             <span className="w-3 h-3 bg-green-500 rounded-full"></span>
           </div>
-          <div className="text-sm font-bold hover:opacity-70 text-gray-200">Terminal</div>
+          <div className="text-sm font-bold text-gray-100">Terminal</div>
           <div></div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-[#252526] text-gray-400 px-3 py-2 flex space-x-4 overflow-auto">
-          {['Problems', 'Output', 'Debug Console', 'Terminal', 'Ports'].map((tab) => (
-            <button
-              key={tab}
-              className={`${
-                activeTab === tab ? 'text-white border-b-2 border-blue-500' : 'hover:text-white'
-              }`}
-              onClick={() => {
-                setActiveTab(tab);
-                // Clear input text when switching tabs
-                if (tab !== 'Terminal') setText('');
-              }}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="bg-gray-900 text-gray-300 px-3 py-2 flex space-x-4 overflow-auto">
+          {/* Render all tabs on larger screens */}
+          <div className="hidden sm:flex">
+            {['Problems', 'Output', 'Debug Console', 'Terminal', 'Ports'].map((tab) => (
+              <button
+                key={tab}
+                className={`transition-colors duration-200 ${
+                  activeTab === tab ? 'text-white bg-blue-600' : 'hover:bg-blue-700 hover:text-white'
+                } px-2 py-1 rounded`}
+                onClick={() => {
+                  setActiveTab(tab);
+                  if (tab !== 'Terminal') setText('');
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+
+          {/* Render a subset of tabs on smaller screens */}
+          <div className="sm:hidden bg-gray-900 text-gray-300 px-3 py-2 flex space-x-4 overflow-auto">
+            {['Terminal', 'Problems', 'Output'].map((tab) => (
+              <button
+                key={tab}
+                className={`transition-colors duration-200 ${
+                  activeTab === tab ? 'text-white bg-blue-600' : 'hover:bg-blue-700 hover:text-white'
+                } px-2 py-1 rounded`}
+                onClick={() => {
+                  setActiveTab(tab);
+                  if (tab !== 'Terminal') setText('');
+                }}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Terminal Body */}
-        <div className="bg-[#1e1e1e] p-3 rounded-b-lg h-48 sm:h-64 md:h-48 lg:h-64 xl:h-72 overflow-auto">
+        <div className="bg-gray-900 p-3 rounded-b-lg h-40 sm:h-56 md:h-48 lg:h-64 xl:h-72 overflow-auto">
           {activeTab === 'Terminal' ? (
-            <div className="text-green-400 text-sm md:text-base lg:text-lg">
+            <div className="text-green-200 text-sm md:text-base lg:text-lg space-y-1">
               {showNewTerminal ? (
                 <>
                   {commandHistory.map((cmd, idx) => (
-                    <p key={idx}>{cmd}</p>
+                    <p key={idx} className="leading-relaxed">{cmd}</p>
                   ))}
                 </>
               ) : (
                 <>
                   {commandHistory.map((cmd, idx) => (
-                    <p key={idx}>{cmd}</p>
+                    <p key={idx} className="leading-relaxed">{cmd}</p>
                   ))}
                   {isInstalling ? (
                     <p>{installMessage}</p>
