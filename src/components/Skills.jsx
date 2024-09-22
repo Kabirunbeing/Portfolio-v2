@@ -62,9 +62,9 @@ const Skills = () => {
               style={{ borderRadius: '50%' }}
             />
 
-            {/* Skill Name on Hover */}
+            {/* Skill Name on Hover (without bold effect) */}
             <div
-              className="absolute bottom-[-3rem] mb-3 opacity-0 text-cyan-500 text-lg font-bold group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
+              className="absolute bottom-[-3rem] mb-3 opacity-0 text-cyan-500 text-lg group-hover:opacity-100 transition-opacity duration-500 ease-in-out"
               style={{ whiteSpace: 'nowrap' }}
             >
               {skill.name}

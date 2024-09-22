@@ -4,10 +4,11 @@ import ContactForm from "./components/Contact";
 import AnimatedHeader from "./components/Header";
 import HomePage from "./components/Home";
 import Skills from "./components/Skills";
-import TypeWriterEffect from "./components/TypingEff";
+// import TypeWriterEffect from "./components/TypingEff";
 import TerminalTypingEffect from "./components/Terminal";
 import Arrow from "./components/Arrow";
 import Projects from "./components/Projects";
+import Footer from "./components/Footer";
 
 function App() {
   const [terminalComplete, setTerminalComplete] = useState(false);
@@ -28,9 +29,10 @@ function App() {
           <HomePage />
           <Skills />
           <Projects/>
-          <TypeWriterEffect />
+          {/* <TypeWriterEffect /> */}
           <ContactForm />
           <ConnectWithMe />
+          <Footer/>
           <Arrow/>
         </>
       )}
