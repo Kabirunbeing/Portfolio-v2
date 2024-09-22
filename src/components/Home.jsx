@@ -5,14 +5,14 @@ const HomePage = () => {
   const [text, setText] = useState('');
   const [index, setIndex] = useState(0);
 
-  const description = "Hi, I'm Kabeer, a self-taught developer who's been learning web development for the last 1.5 years. I'm passionate about React and full-stack development, constantly looking for opportunities to refine my skills and build meaningful projects. Currently seeking job roles to expand my experience and contribute to exciting projects.";
+  const description = "Hi, I'm Kabeer, a self-taught developer passionate about React and full-stack development. I'm constantly refining my skills and building meaningful projects while seeking job roles to contribute to exciting opportunities.";
 
   useEffect(() => {
     if (index < description.length) {
       const timeout = setTimeout(() => {
-        setText((prevText) => prevText + description[index]);
+        setText(description.slice(0, index + 1));
         setIndex(index + 1);
-      }, 30); // Faster typing effect
+      }, 20); // Faster typing effect
       return () => clearTimeout(timeout);
     }
   }, [index, description]);
@@ -21,12 +21,12 @@ const HomePage = () => {
     <div 
       id="home" 
       className="flex flex-col items-center justify-center min-h-screen bg-black p-6 sm:p-8 md:p-12 lg:p-16"
-      style={{ paddingTop: '6rem', overflowY: 'auto' }}  // Added padding for the navbar and scrollable content
+      style={{ paddingTop: '10rem', overflowY: 'auto' }}  // Added more padding to account for navbar height
     >
       {/* Image Section */}
       <div className="relative mb-8 group">
         <img
-          src={kabeerImage}  // Real image from assets
+          src={kabeerImage}
           alt="Kabeer"
           className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-full border-4 border-cyan-500 shadow-2xl blur-sm group-hover:blur-md transition-all duration-300"
         />
@@ -37,22 +37,13 @@ const HomePage = () => {
       </div>
 
       {/* Typing Effect Section */}
-      <div className="text-cyan-400 text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight relative">
+      <div className="text-cyan-400 text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide relative">
         <p className="inline-block">
-          {text.split('').map((char, i) => (
-            <span
-              key={i}
-              className="opacity-0 animate-fade-in"
-              style={{ animationDelay: `${i * 0.03}s` }} // Faster fade-in delay for a more responsive effect
-            >
-              {char}
-            </span>
-          ))}
+          {text}
         </p>
       </div>
 
       <style jsx>{`
-        /* Typing effect fade-in animation */
         @keyframes fadeIn {
           from {
             opacity: 0;
